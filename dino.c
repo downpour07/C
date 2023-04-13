@@ -3,9 +3,9 @@
 #include <conio.h>
 #include <time.h>
 #include <stdbool.h>
-#define DINO_BOTTOM_Y 12
-#define TREE_BOTTOM_Y 20
-#define TREE_BOTTOM_X 45
+#define Y_dino 12
+#define Y_tree 20
+#define X_tree 45
 
 void SetConsoleView()
 {
@@ -30,52 +30,52 @@ int GetKeyDown()
 	return 0;
 }
 
-void DrawDino(int dinoY)
+void DrawDino(int Y)
 {
-	GotoXY(0, dinoY);
+	GotoXY(0, Y);
 	static bool legFlag = true;
-	printf("        $$$$$$$ \n");
-	printf("       $$ $$$$$$\n");
-	printf("       $$$$$$$$$\n");
-	printf("$      $$$      \n");
-	printf("$$     $$$$$$$  \n");
-	printf("$$$   $$$$$     \n");
-	printf(" $$  $$$$$$$$$$ \n");
-	printf(" $$$$$$$$$$$    \n");
-	printf("  $$$$$$$$$$    \n");
-	printf("    $$$$$$$$    \n");
-	printf("     $$$$$$     \n");
+	printf("        ******* \n");
+	printf("       ** ******\n");
+	printf("       *********\n");
+	printf("*      ***      \n");
+	printf("**     *******  \n");
+	printf("***   *****     \n");
+	printf(" **  ********** \n");
+	printf(" ***********    \n");
+	printf("  **********    \n");
+	printf("    ********    \n");
+	printf("     ******     \n");
 	if (legFlag)
 	{
-		printf("     $    $$$    \n");
-		printf("     $$          ");
+		printf("     *    ***    \n");
+		printf("     **          ");
 		legFlag = false;
 	}
 	else
 	{
-		printf("     $$$  $     \n");
-		printf("          $$    ");
+		printf("     ***  *     \n");
+		printf("          **    ");
 		legFlag = true;
 	}
 }
 
-void DrawTree(int treeX)
+void DrawTree(int X)
 {
-	GotoXY(treeX, TREE_BOTTOM_Y);
-	printf("$$$$");
-	GotoXY(treeX, TREE_BOTTOM_Y + 1);
-	printf(" $$ ");
-	GotoXY(treeX, TREE_BOTTOM_Y + 2);
-	printf(" $$ ");
-	GotoXY(treeX, TREE_BOTTOM_Y + 3);
-	printf(" $$ ");
-	GotoXY(treeX, TREE_BOTTOM_Y + 4);
-	printf(" $$ ");
+	GotoXY(X, Y_tree);
+	printf("****");
+	GotoXY(X, Y_tree + 1);
+	printf(" ** ");
+	GotoXY(X, Y_tree + 2);
+	printf(" ** ");
+	GotoXY(X, Y_tree + 3);
+	printf(" ** ");
+	GotoXY(X, Y_tree + 4);
+	printf(" ** ");
 }
 
-void DrowGameOver(const int score)
+void DrawGameOver(const int score)
 {
-	systemm("cls");
+	system("cls");
 	int x = 18;
 	int y = 8;
 	GotoXY(x, y);
@@ -91,11 +91,11 @@ void DrowGameOver(const int score)
 	system("pause");
 }
 
-bool isCollision(const int treeX, const int dinoY)
+bool isCollision(const int X, const int Y)
 {
 	GotoXY(0, 0);
-	printf("treeX : %d, dinoY : %d", treeX, dinoY);
-	if (treeX <= 8 && treeX >= 4 && dinoY > 8)
+	printf("treeX : %d, dinoY : %d", X, Y);
+	if (X <= 8 && X >= 4 && Y > 8)
 	{
 		return true;
 	}
@@ -112,8 +112,8 @@ int main()
 		bool isBottom = true;
 		const int gravity = 3;
 
-		int dinoY = DINO_BOTTOM_Y;
-		int treeX = TREE_BOTTOM_X;
+		int dinoY = Y_dino;
+		int treeX = X_tree;
 
 		int score = 0;
 		clock_t start, curr;
@@ -125,7 +125,7 @@ int main()
 			{
 				break;
 			}
-			if (GetKeyDown() == 'z' && isBottom)
+			if (GetKeyDown() == ' ' && isBottom)
 			{
 				isJumping = true;
 				isBottom = false;
@@ -139,15 +139,15 @@ int main()
 				dinoY += gravity;
 			}
 
-			if (dinoY >= DINO_BOTTOM_Y)
+			if (dinoY >= Y_dino)
 			{
-				dinoY = DINO_BOTTOM_Y;
+				dinoY = Y_dino;
 				isBottom = true;
 			}
 			treeX -= 2;
 			if (treeX <= 0)
 			{
-				treeX = TREE_BOTTOM_X;
+				treeX = X_tree;
 			}
 
 			if (dinoY <= 3)
